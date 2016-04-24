@@ -2,6 +2,8 @@
 Lei Kang, Lulu Cheng
 @Bayes Hackathon 2016
 
+#Department of Commerce
+
 #### Objectives
  - Explore association between nighttime radiance intensity and mental disorder related death
  - Build county-level predictive models for mental disorder related death 
