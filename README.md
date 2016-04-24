@@ -1,5 +1,7 @@
 ## Exploratory Analysis of Nighttime Radiance Patterns and Mental Health
-Lei Kang, Lulu Cheng @Bayes Hackathon 2016
+Lei Kang, Lulu Cheng
+
+@Bayes Hackathon 2016
 
 #### Objectives
  - Explore association between nighttime radiance intensity and mental related death
