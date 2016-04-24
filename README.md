@@ -3,8 +3,9 @@ Lei Kang, Lulu Cheng
 @Bayes Hackathon 2016
 
 #### Objectives
- - Explore association between nighttime radiance intensity and mental related death
- - Build county-level predictive models for mental disorder related death
+ - Explore association between nighttime radiance intensity and mental disorder related death
+ - Build county-level predictive models for mental disorder related death 
+
 
 #### Data
 1. Centers for Disease Control and Prevention (CDC)
@@ -13,7 +14,7 @@ Lei Kang, Lulu Cheng
  - Variable: Cause of death by county and month in 2014 due to Mental and Behavioral Disorders
 
 2. Nighttime VIIRS Day/Night
-Thanks to Jeff, Star, Alex from:
+Special thanks to Jeff, Star, Alex
  - [Raw Image Data](http://ngdc.noaa.gov/eog/viirs/download_monthly.html) for January 2014
  - 2014 County-level Aggregated Radiance [Data](https://github.com/bayesimpact/bayeshack-commerce-satellite/blob/master/analysis/VIIRS_centiles_exploration.ipynb)
 
