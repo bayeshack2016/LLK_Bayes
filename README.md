@@ -19,8 +19,8 @@ Thanks to Jeff, Star, Alex from:
 
 3. SES Data
  - Get Data from [here](http://www.ers.usda.gov/data-products/county-level-data-sets/download-data.aspx)
- - county-level monthly poverty, education, employment, population information for 2014
+ - County-level monthly poverty, education, employment, population information for 2014
 
 #### Visualizations and Reports
  - [Interactive Visualization Dashboard](https://public.tableau.com/profile/publish/RadianceandMentalHelathAnalysis/Dashboard1#!/publish-confirm)
- - [Full Report](http://rpubs.com/chenglulu1127/174834)
+ - [Full Report on RPubs](http://rpubs.com/chenglulu1127/174834)
