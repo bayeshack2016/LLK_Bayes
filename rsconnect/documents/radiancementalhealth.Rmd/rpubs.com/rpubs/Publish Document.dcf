@@ -1,0 +1,7 @@
+name: Publish Document
+account: rpubs
+server: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/174834/8856f174b798459cbb0326f5695676cd
+bundleId: https://api.rpubs.com/api/v1/document/174834/8856f174b798459cbb0326f5695676cd
+url: http://rpubs.com/chenglulu1127/174834
+when: 1461514635.63662
