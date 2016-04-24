@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Exploratory Analysis of Nighttime Radiance Patterns and Mental Health by bayeshack2016</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Exploratory Analysis of Nighttime Radiance Patterns and Mental Health</h1>
+      <h2 class="project-tagline">#DC</h2>
+      <a href="https://github.com/bayeshack2016/LLK_Bayes" class="btn">View on GitHub</a>
+      <a href="https://github.com/bayeshack2016/LLK_Bayes/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/bayeshack2016/LLK_Bayes/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p>Created by Lei Kang(<a href="https://github.com/leikang-stat" class="user-mention">@leikang-stat</a>), Lulu Cheng(<a href="https://github.com/chenglulu1127" class="user-mention">@chenglulu1127</a>) #Bayes Hack 2016</p>
+
+<h2>
+<a id="objectives" class="anchor" href="#objectives" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Objectives</h2>
+
+<ul>
+<li>Explore association between nighttime radiance intensity and mental disorder related death</li>
+<li>Build county-level predictive models for mental disorder related death </li>
+</ul>
+
+<h2>
+<a id="data" class="anchor" href="#data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data</h2>
+
+<ol>
+<li>
+<p>Centers for Disease Control and Prevention (CDC)</p>
+
+<ul>
+<li>Get Data from <a href="http://wonder.cdc.gov/">here</a>
+</li>
+<li>Data <a href="http://wonder.cdc.gov/DataSets.html">Description</a>
+</li>
+<li>Variable: Cause of death by county and month in 2014 due to Mental and Behavioral Disorders</li>
+</ul>
+</li>
+<li>
+<p>Nighttime VIIRS Day/Night
+Special thanks to Jeff, Star, Alex</p>
+
+<ul>
+<li>
+<a href="http://ngdc.noaa.gov/eog/viirs/download_monthly.html">Raw Image Data</a> for January 2014</li>
+<li>2014 County-level Aggregated Radiance <a href="https://github.com/bayesimpact/bayeshack-commerce-satellite/blob/master/analysis/VIIRS_centiles_exploration.ipynb">Data</a>
+</li>
+</ul>
+</li>
+<li>
+<p>SES Data</p>
+
+<ul>
+<li>Get Data from <a href="http://www.ers.usda.gov/data-products/county-level-data-sets/download-data.aspx">here</a>
+</li>
+<li>County-level monthly poverty, education, employment, population information for 2014</li>
+</ul>
+</li>
+</ol>
+
+<h2>
+<a id="exploratory-data-analysis" class="anchor" href="#exploratory-data-analysis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exploratory Data Analysis</h2>
+
+<p><a href="https://public.tableau.com/profile/publish/RadianceandMentalHelathAnalysis/Dashboard1#!/publish-confirm">Interactive Visualization Dashboard</a></p>
+
+<p>We observe a strong positive correlation between nighttime radiance intensity and mental disorder related death even after controlling for population based on the above Interactive plot.</p>
+
+<p>Now, let's explore a little bit about satellite images. Due to time constraint, we just focus on January, 2014. Then, 3220 county nightlight images are extracted using the following procedure:</p>
+
+<ol>
+<li> Extract pixel information based on county shape file using minimum coverage rectangle</li>
+<li> Replace non-county region with 0 (no radiance)</li>
+<li><p>Resample different sizes of images to project onto the median-level reference image (size of 103 * 130) so that all counties are comparable in terms of lighting patterns. See the figure below for before and after comparison after normalization.
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/beforeafter.png" alt="Caption for the picture."></p></li>
+<li><p>Use PCA to construct Eigen-county patterns. The first eigen county map contains a lot of noise because image background is generally dark and not useful though they account for majority pixels. Thus, the first eigen county attemps to pick up noisy information as shown below. However, eigen 2, 3, 4 counties start to represent lighting patterns, see figure below. Need to mention that, we do not rescale every image because we care more about county-wise comparison.
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Eigen.png" alt=""></p></li>
+<li><p>Use PCA to reduce dimension from 103*130 to 8 and perform K-means clustering based on reduced-dimension data. Number of clusters are determined using residual sum of squares reduction, stability-based K-means, and dendrogram together. We end up with K=9 clusters. The idea of stability-based K-means is that if we perturb data a little bit (say by 20% or 40%) and run K-means based on two random subsamples of original data, how much the cluster assignments of two subsamples agree with each other. One can use percentage of matched observations as a metric. Then as this metric moves closer to 1, one tends to get more stable clustering result. We decide to use K=9 because matching metric starts to move insignificantly after K=9 and within sum of squares residuals also start to decay slowly after K=9. Both results are consistent with hierachical clustering dendrogram.
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Clustering.png" alt=""></p></li>
+</ol>
+
+<p>The following figure presents selected raw images from two representative clusters. Cluster 1 tends to be more centered while cluster 2 tends to be more sparsely populated in terms of night time radiance. Both clusters can capture inherent different night time lighting patterns.
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Clusters.png" alt=""></p>
+
+<h2>
+<a id="prediction-models-for-death-counts" class="anchor" href="#prediction-models-for-death-counts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prediction Models for Death Counts</h2>
+
+<p>After exploring satellite image data, we need to provide more useful insight on how it might influence mental disorder related death. To this end, we match county level monthly mental disorder related death data with aggregated county-level radiance data for year 2014. In the end, we got 9754 observations with matched death and nighttime radiance information where 75% of them is treated as a training set and the rest 25% is test set. We are going to predict county-level monthly mental disorder related death counts using the following features:</p>
+
+<ol>
+<li>SES: Population, poverty percentage, median income, unemployment rate, domestic migration rate, international migration rate, natural population growth rate, death rate, percentage of adults with less than high school degree, percentage of adults with high school degree, percentage of adults with college degree, percentage of adults with bachelor degree or more</li>
+<li>Spatial data: lat, lon of county</li>
+<li>Temporal data: month indicator</li>
+<li>Lighting data: County-wide sum of monthly average nighttime radiance </li>
+</ol>
+
+<p>We apply the Super Learner idea (Ensemble learning) which combines outputs from the following 11 algorithms: Ridge, Lasso, Decision tree with pruning, Multivariate adaptive regression splines (MARS), Random forests, generalized additive model, SVM, Neural Network, linear regression, generalized boosting.</p>
+
+<p>5-fold CV is used to tune parameters in aforementioned algorithms and Super Learner seeks the best convex combination of those prediction results.</p>
+
+<p>Random forests are found to have the best performance, followed by MARS and SVM. Thus, in the final Super Learner prediction, the weights of random forests output is very hight which is about 0.96. Other algorithms are not doing a good job in this dataset hence their weights are estimated to be 0. The following plots show the prediction performance on test set. The plot suggests that our prediction values are in line with true values.</p>
+
+<h2>
+<a id="conclusions" class="anchor" href="#conclusions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conclusions</h2>
+
+<p>To gain more insight about the importance of night time radiance in mental-relatd death prediction, we run a seperate random forests model using 1000 trees. See the importance measure below. Following population, aggregated county level monthly average night time radiance is the second most important predictor even after controling for other SES, spatial, and month effects. It gives us a strong indication that night time radiance is a mental health problem. However, assoication is not causation. We need to be careful in interpretating this result. But, the predicative model does suggest night time radiance is a good metric in predicting mental disorder related death and also presumably happiness and well-being.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/bayeshack2016/LLK_Bayes">Exploratory Analysis of Nighttime Radiance Patterns and Mental Health</a> is maintained by <a href="https://github.com/bayeshack2016">bayeshack2016</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
