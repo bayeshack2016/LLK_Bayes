@@ -81,13 +81,13 @@ Special thanks to Jeff, Star, Alex</p>
 <li><p>Resample different sizes of images to project onto the median-level reference image (size of 103 * 130) so that all counties are comparable in terms of lighting patterns. See the figure below for before and after comparison after normalization.
 <img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/beforeafter.png?raw=true" alt="Caption for the picture."></p></li>
 <li><p>Use PCA to construct Eigen-county patterns. The first eigen county map contains a lot of noise because image background is generally dark and not useful though they account for majority pixels. Thus, the first eigen county attemps to pick up noisy information as shown below. However, eigen 2, 3, 4 counties start to represent lighting patterns, see figure below. Need to mention that, we do not rescale every image because we care more about county-wise comparison.
-<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Eigen.png" alt=""></p></li>
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Eigen.png?raw=true" alt=""></p></li>
 <li><p>Use PCA to reduce dimension from 103*130 to 8 and perform K-means clustering based on reduced-dimension data. Number of clusters are determined using residual sum of squares reduction, stability-based K-means, and dendrogram together. We end up with K=9 clusters. The idea of stability-based K-means is that if we perturb data a little bit (say by 20% or 40%) and run K-means based on two random subsamples of original data, how much the cluster assignments of two subsamples agree with each other. One can use percentage of matched observations as a metric. Then as this metric moves closer to 1, one tends to get more stable clustering result. We decide to use K=9 because matching metric starts to move insignificantly after K=9 and within sum of squares residuals also start to decay slowly after K=9. Both results are consistent with hierachical clustering dendrogram.
-<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Clustering.png" alt=""></p></li>
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Clustering.png?raw=true" alt=""></p></li>
 </ol>
 
 <p>The following figure presents selected raw images from two representative clusters. Cluster 1 tends to be more centered while cluster 2 tends to be more sparsely populated in terms of night time radiance. Both clusters can capture inherent different night time lighting patterns.
-<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Clusters.png" alt=""></p>
+<img src="https://github.com/bayeshack2016/LLK_Bayes/blob/master/Plot/Clusters.png?raw=true" alt=""></p>
 
 <h2>
 <a id="prediction-models-for-death-counts" class="anchor" href="#prediction-models-for-death-counts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prediction Models for Death Counts</h2>
